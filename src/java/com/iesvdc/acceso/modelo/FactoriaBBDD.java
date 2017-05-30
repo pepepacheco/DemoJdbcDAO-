@@ -8,6 +8,8 @@ package com.iesvdc.acceso.modelo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,8 +18,13 @@ import java.sql.SQLException;
 public class FactoriaBBDD {
     public static Connection Conecta() throws SQLException{
         Connection conn=null;
-        String jdbcURL = "jdbc:oracle:thin:@orasrv:1521:XE";
-        conn = DriverManager.getConnection(jdbcURL, "damuser23", "damuser");
-        return conn;
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String jdbcURL = "jdbc:oracle:thin:@orasrv:1521:XE";
+            conn = DriverManager.getConnection(jdbcURL, "damuser23", "damuser");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FactoriaBBDD.class.getName()).log(Level.SEVERE, null, ex);     
+        } 
+        return conn;        
     }
 }
