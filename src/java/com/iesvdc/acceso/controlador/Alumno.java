@@ -7,6 +7,7 @@ package com.iesvdc.acceso.controlador;
 
 import com.iesvdc.acceso.modelo.AlumnoDAO;
 import com.iesvdc.acceso.modelo.AlumnoPOJO;
+import com.iesvdc.acceso.vista.VistaAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -21,33 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Alumno extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Alumno</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Alumno at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+   
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -66,42 +42,28 @@ public class Alumno extends HttpServlet {
         li_al = dal.findAll();
         
         try (PrintWriter out = response.getWriter()) {           
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Listado Alumnos</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Listado Alumnos</h1>");
+            
+            VistaAlumno va = new VistaAlumno(out);
+            
+            va.pintaCabecera("Listado de alumnos");
+            
             out.println("<table>");
-            out.println("<tr><th>ID</th><th>Nombre</th><th>Apellido</th></tr>");
+            out.println("<tr><th>ID</th><th>Nombre</th><th>"
+                    + "Apellido</th><th>acción</th></tr>");
             if(li_al!=null) {
                 for (AlumnoPOJO al : li_al) {
                     out.println("<tr>");
                     out.println("<td>"+al.getId()+"</td>");
                     out.println("<td>"+al.getNombre()+"</td>");
                     out.println("<td>"+al.getApellido()+"</td>");
+                    out.println("<td>"+"</td>");
                     out.println("</tr>");
                 }
             }
             out.println("</table>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            va.pintaPie();
         }
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
