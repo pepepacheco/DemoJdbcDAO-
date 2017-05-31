@@ -6,21 +6,21 @@
 package com.iesvdc.acceso.controlador;
 
 import com.iesvdc.acceso.modelo.AlumnoDAO;
+import com.iesvdc.acceso.modelo.AlumnoPOJO;
+import com.iesvdc.acceso.vista.VistaAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
 
 /**
  *
  * @author juangu
  */
-import com.iesvdc.acceso.modelo.AlumnoPOJO;
-import com.iesvdc.acceso.vista.VistaAlumno;
-public class AlumnoCreate extends HttpServlet {
+public class AlumnoDelete extends HttpServlet {
+
 
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -33,14 +33,29 @@ public class AlumnoCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+        
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        
         try (PrintWriter out = response.getWriter()) {
             VistaAlumno va = new VistaAlumno(out);
-            va.pintaCabecera("Alta Alumno");
+            va.pintaCabecera("Borrado de Alumno");
             
-            va.pintaAltaForm();
-            
+            if (id!=null) {
+                AlumnoDAO al_dao = new AlumnoDAO();
+                AlumnoPOJO al = al_dao.findById(id);
+                if (al!=null) {
+                // formulario (obj alumno, destino post, enabled) 
+                    va.formulario(al,"AlumnoDelete", false);
+                } else {
+                    va.error("Borrando Alumno", "No puedo encontrar ese ID de alumno");
+                }
+            } else {
+                va.error("Borrando Alumno", "No puedo encontrar el alumno");
+            }
             va.pintaPie();
-        } 
+        }
     }
 
     /**
@@ -55,29 +70,8 @@ public class AlumnoCreate extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        AlumnoPOJO al = new AlumnoPOJO( 
-            request.getParameter("nombre").trim().toUpperCase(),
-            request.getParameter("apellido").trim().toUpperCase());
-        
-        AlumnoDAO al_dao = new AlumnoDAO();
-        if (al_dao.create(al)) { // true si exito
-            response.sendRedirect("Alumno");
-        } else { // false si error
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {                
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet AlumnoCreate</title>");            
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<h1>Error al crear alumno</h1>");
-                out.println("</body>");
-                out.println("</html>");
-            }
-        }
     }
-
+    
     /**
      * Returns a short description of the servlet.
      *
@@ -86,6 +80,6 @@ public class AlumnoCreate extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

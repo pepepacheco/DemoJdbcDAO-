@@ -47,7 +47,7 @@ public class Alumno extends HttpServlet {
             
             va.pintaCabecera("Listado de alumnos");
             
-            out.println("<table>");
+            out.println("<table width='80%'>");
             out.println("<tr><th>ID</th><th>Nombre</th><th>"
                     + "Apellido</th><th>acción</th></tr>");
             if(li_al!=null) {
@@ -56,7 +56,10 @@ public class Alumno extends HttpServlet {
                     out.println("<td>"+al.getId()+"</td>");
                     out.println("<td>"+al.getNombre()+"</td>");
                     out.println("<td>"+al.getApellido()+"</td>");
-                    out.println("<td>"+"</td>");
+                    out.println("<td>");
+                    out.println("<a class=\"btn btn-info\" href=\"AlumnoUpdate?id="+al.getId()+"\">Actualizar</a>");
+                    out.println("<a class=\"btn btn-danger\" href=\"AlumnoDelete?id="+al.getId()+"\">Borrar</a>");
+                    out.println("</td>");
                     out.println("</tr>");
                 }
             }

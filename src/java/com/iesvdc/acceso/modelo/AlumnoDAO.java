@@ -29,11 +29,12 @@ public class AlumnoDAO {
             String sql = 
                 "INSERT INTO ALUMNO VALUES (ALUMNO_SEQ.NEXTVAL,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(0, al.getNombre());
-            pstmt.setString(1, al.getApellido());
+            pstmt.setString(1, al.getNombre());
+            pstmt.setString(2, al.getApellido());
             pstmt.executeUpdate();  
             conn.close();
         } catch (SQLException ex) {
+            System.out.println("ERROR:  "+ex.getMessage());
             exito = false;
         } 
         return exito;
@@ -46,7 +47,7 @@ public class AlumnoDAO {
             String sql = 
                 "SELECT * FROM ALUMNO WHERE id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(0, id);
+            pstmt.setInt(1, id);
             ResultSet rs  = pstmt.executeQuery();
             rs.first();
             al = new AlumnoPOJO(
@@ -113,7 +114,7 @@ public class AlumnoDAO {
             String sql = "SELECT * FROM ALUMNO WHERE nombre=?";
             // usamos este objeto porque es más seguro
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(0, nombre);
+            pstmt.setString(1, nombre);
             // ejecutar la consulta contra la base de datos y 
             // devuelve el resultado en el ResultSet (parecido a 
             // un Array con iterador
@@ -156,7 +157,7 @@ public class AlumnoDAO {
             String sql = "SELECT * FROM ALUMNO WHERE apellido=?";
             // usamos este objeto porque es más seguro
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(0, apellido);
+            pstmt.setString(1, apellido);
             // ejecutar la consulta contra la base de datos y 
             // devuelve el resultado en el ResultSet (parecido a 
             // un Array con iterador
@@ -211,10 +212,10 @@ public class AlumnoDAO {
             String sql = 
                 "UPDATE ALUMNO SET id=?, nombre=?, apellido=? WHERE id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(3, old_id);
-            pstmt.setInt(0, new_al.getId());
-            pstmt.setString(1, new_al.getNombre());
-            pstmt.setString(2, new_al.getApellido());
+            pstmt.setInt(4, old_id);
+            pstmt.setInt(1, new_al.getId());
+            pstmt.setString(2, new_al.getNombre());
+            pstmt.setString(3, new_al.getApellido());
             if (pstmt.executeUpdate()==0) {
                 exito = false;
             }
@@ -244,7 +245,7 @@ public class AlumnoDAO {
             conn = FactoriaBBDD.Conecta();
             String sql = "DELETE FROM ALUMNO WHERE id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(0, id_al);
+            pstmt.setInt(1, id_al);
             if (pstmt.executeUpdate()==0) {
                 exito = false;
             }

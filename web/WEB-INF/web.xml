@@ -12,6 +12,10 @@
         <servlet-name>Alumno</servlet-name>
         <servlet-class>com.iesvdc.acceso.controlador.Alumno</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AlumnoDelete</servlet-name>
+        <servlet-class>com.iesvdc.acceso.controlador.AlumnoDelete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HolaMundo</servlet-name>
         <url-pattern>/HolaMundo</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>Alumno</servlet-name>
         <url-pattern>/Alumno</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AlumnoDelete</servlet-name>
+        <url-pattern>/AlumnoDelete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

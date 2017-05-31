@@ -5,6 +5,7 @@
  */
 package com.iesvdc.acceso.vista;
 
+import com.iesvdc.acceso.modelo.AlumnoPOJO;
 import java.io.PrintWriter;
 
 /**
@@ -22,7 +23,8 @@ public class VistaAlumno {
 "        <script src=\"js/jquery.min.js\"></script>\n" +
 "        <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\" >\n" +
 "        <script src=\"js/bootstrap.min.js\" ></script>\n" +
-            "<link href=\"css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>"+
+            "        <script src=\"js/bootstrap3-floating-labels.js\" ></script>\n"+ 
+            "<link href=\"css/bootstrap3-floating-labels.css\" rel=\"stylesheet\" type=\"text/css\"/>"+
 "    </head>\n" +
 "    <body>\n" +
 "        <div class=\"container\">\n" +
@@ -60,7 +62,23 @@ public class VistaAlumno {
 "    </body>\n" +
 "</html>\n";
     
-    private String altaForm = "";
+    private String altaForm = "<div class=\"row\">\n" +
+"                    <div class=\"col-sm-8\">\n" +
+"                        <h3 class=\"page-header\">Alta alumnos</h3>\n" +
+"                        <form role=\"form\" action=\"AlumnoCreate\" method=\"POST\">\n" +
+"                            <div class=\"form-group float-label-control\">\n" +
+"                                <label for=\"\"></label>\n" +
+"                                <input name=\"nombre\" type=\"text\" class=\"form-control\" placeholder=\"Nombre del alumno\"/>\n" +
+"                            </div>\n" +
+"                            <div class=\"form-group float-label-control\">\n" +
+"                                <label for=\"\"></label>\n" +
+"                                <input name=\"apellido\" type=\"text\" class=\"form-control\" placeholder=\"Apellido del alumno\"/>\n" +
+"                            </div>\n" +
+"                            <button class=\"btn btn-info\">Aceptar</button>\n" +
+"                            <div class=\"btn btn-danger\" onclick=\"window.history.back()\">Cancelar</div>\n" +
+"                        </form>\n" +
+"                    </div>                 \n" +
+"                </div>";
     
     public VistaAlumno(PrintWriter pr) {
         this.pr = pr;
@@ -73,6 +91,14 @@ public class VistaAlumno {
     
     public void pintaAltaForm(){
         pr.println(altaForm);
+    }
+    
+    public void error(String titulo, String mensaje){
+        
+    }
+    
+    public void formulario(AlumnoPOJO al, String action, boolean enabled){
+        
     }
     
     public void pintaPie(){
