@@ -22,6 +22,7 @@ public class VistaAlumno {
 "        <script src=\"js/jquery.min.js\"></script>\n" +
 "        <link href=\"css/bootstrap.min.css\" rel=\"stylesheet\" >\n" +
 "        <script src=\"js/bootstrap.min.js\" ></script>\n" +
+            "<link href=\"css/style.css\" rel=\"stylesheet\" type=\"text/css\"/>"+
 "    </head>\n" +
 "    <body>\n" +
 "        <div class=\"container\">\n" +

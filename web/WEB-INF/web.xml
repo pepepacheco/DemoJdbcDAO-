@@ -4,9 +4,25 @@
         <servlet-name>HolaMundo</servlet-name>
         <servlet-class>com.iesvdc.acceso.controlador.HolaMundo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AlumnoCreate</servlet-name>
+        <servlet-class>com.iesvdc.acceso.controlador.AlumnoCreate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Alumno</servlet-name>
+        <servlet-class>com.iesvdc.acceso.controlador.Alumno</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HolaMundo</servlet-name>
         <url-pattern>/HolaMundo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AlumnoCreate</servlet-name>
+        <url-pattern>/AlumnoCreate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Alumno</servlet-name>
+        <url-pattern>/Alumno</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
