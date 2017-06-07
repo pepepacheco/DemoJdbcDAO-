@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -48,13 +46,13 @@ public class AlumnoDAO {
                 "SELECT * FROM ALUMNO WHERE id=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
+            System.err.println("\nID:: "+id+"\n");
             ResultSet rs  = pstmt.executeQuery();
-            rs.first();
+            rs.next();
             al = new AlumnoPOJO(
                 rs.getInt("id"),
                 rs.getString("nombre"),
-                rs.getString("apellido"));
-                    
+                rs.getString("apellido"));                    
             conn.close();
         } catch (SQLException ex) {
             al = null;

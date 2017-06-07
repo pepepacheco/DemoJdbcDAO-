@@ -6,23 +6,23 @@
 package com.iesvdc.acceso.controlador;
 
 import com.iesvdc.acceso.modelo.AlumnoDAO;
+import com.iesvdc.acceso.modelo.AlumnoPOJO;
+import com.iesvdc.acceso.vista.VistaAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
 
 /**
  *
  * @author juangu
  */
-import com.iesvdc.acceso.modelo.AlumnoPOJO;
-import com.iesvdc.acceso.vista.VistaAlumno;
-public class AlumnoCreate extends HttpServlet {
+public class AlumnoUpdate extends HttpServlet {
 
-    /**
+    
+      /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -33,15 +33,21 @@ public class AlumnoCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try (PrintWriter out = response.getWriter()) {
+        response.setContentType("text/html;charset=UTF-8");              
+        try{
+            PrintWriter out = response.getWriter();
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            String nombre = request.getParameter("nombre");
+            String apellido = request.getParameter("apellido");
+            
             VistaAlumno va = new VistaAlumno(out);
-            va.pintaCabecera("Alta Alumno");
-            
-            // va.pintaAltaForm();
-            va.formulario("Introduzca los datos del nuevo alumno", "AlumnoCreate", true);
-            
+            va.pintaCabecera("Actualización de alumno");
+            AlumnoPOJO al = new AlumnoPOJO(id, nombre, apellido);
+            va.formulario(al,"Actualice los datos del alumno","AlumnoUpdate",true);
             va.pintaPie();
-        } 
+        } catch (Exception ex) {
+            
+        }
     }
 
     /**
@@ -55,22 +61,19 @@ public class AlumnoCreate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        AlumnoPOJO al = new AlumnoPOJO( 
-            request.getParameter("nombre").trim().toUpperCase(),
-            request.getParameter("apellido").trim().toUpperCase());
-        
-        AlumnoDAO al_dao = new AlumnoDAO();
-        if (al_dao.create(al)) { // true si exito
+        response.setContentType("text/html;charset=UTF-8");              
+        try{
+            PrintWriter out = response.getWriter();
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            String nombre = request.getParameter("nombre");
+            String apellido = request.getParameter("apellido");
+            
+            AlumnoPOJO al = new AlumnoPOJO(id, nombre, apellido); 
+            AlumnoDAO al_dao = new AlumnoDAO();
+            al_dao.update(id, al);
             response.sendRedirect("Alumno");
-        } else { // false si error
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {                
-                VistaAlumno va = new VistaAlumno(out);
-                va.pintaCabecera("Alta de alumnos");
-                va.error("Error al dar de alta el alumno", "No ha sido posible dar de alta el alumno. Intentelo de nuevo pasados unos minutos. Si el error persiste, contacte con el servicio técnico.");
-                va.pintaPie();
-            }
+        } catch (Exception ex) {
+            
         }
     }
 
@@ -82,6 +85,6 @@ public class AlumnoCreate extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }// </editor-fold>
+    }
 
 }

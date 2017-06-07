@@ -10,6 +10,8 @@ import com.iesvdc.acceso.modelo.AlumnoPOJO;
 import com.iesvdc.acceso.vista.VistaAlumno;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,12 +35,13 @@ public class AlumnoDelete extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");        
+       
         
-        response.setContentType("text/html;charset=UTF-8");
-        
-        Integer id = Integer.parseInt(request.getParameter("id"));
-        
-        try (PrintWriter out = response.getWriter()) {
+        try {
+            PrintWriter out = response.getWriter();
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            
             VistaAlumno va = new VistaAlumno(out);
             va.pintaCabecera("Borrado de Alumno");
             
@@ -47,7 +50,7 @@ public class AlumnoDelete extends HttpServlet {
                 AlumnoPOJO al = al_dao.findById(id);
                 if (al!=null) {
                 // formulario (obj alumno, destino post, enabled) 
-                    va.formulario(al,"AlumnoDelete", false);
+                    va.formulario(al,"¿Realmente quiere borrar este alumno?","AlumnoDelete", false);
                 } else {
                     va.error("Borrando Alumno", "No puedo encontrar ese ID de alumno");
                 }
@@ -55,6 +58,8 @@ public class AlumnoDelete extends HttpServlet {
                 va.error("Borrando Alumno", "No puedo encontrar el alumno");
             }
             va.pintaPie();
+        } catch (NumberFormatException ne) {
+            response.sendRedirect("Alumno");
         }
     }
 
@@ -69,7 +74,30 @@ public class AlumnoDelete extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");        
+       
         
+        try {
+            PrintWriter out = response.getWriter();
+            Integer id = Integer.parseInt(request.getParameter("id"));
+            
+            VistaAlumno va = new VistaAlumno(out);
+            
+            va.pintaCabecera("Borrar alumno");
+            
+            AlumnoDAO al_dao = new AlumnoDAO();
+            if (al_dao.delete(id)){
+                response.sendRedirect("Alumno");
+            } else {
+                va.error("Borrando alumno", "Ha sido imposible borrar el alumno de la base de datos");
+            }
+            
+            va.pintaPie();
+            
+        } catch (IOException | NumberFormatException ex) {
+            // REGISTRAR INCIDENTE (posible inyección de código)
+            response.sendRedirect("Alumno");
+        }
     }
     
     /**

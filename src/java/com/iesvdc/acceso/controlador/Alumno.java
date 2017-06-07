@@ -47,9 +47,9 @@ public class Alumno extends HttpServlet {
             
             va.pintaCabecera("Listado de alumnos");
             
-            out.println("<table width='80%'>");
-            out.println("<tr><th>ID</th><th>Nombre</th><th>"
-                    + "Apellido</th><th>acción</th></tr>");
+            out.println("<table id='listadoAlumnos' class='tablesorter' width='80%'>");
+            out.println("<thead><tr><th>ID</th><th>Nombre</th><th>"
+                    + "Apellido</th><th>acción</th></tr></thead><tbody>");
             if(li_al!=null) {
                 for (AlumnoPOJO al : li_al) {
                     out.println("<tr>");
@@ -57,13 +57,20 @@ public class Alumno extends HttpServlet {
                     out.println("<td>"+al.getNombre()+"</td>");
                     out.println("<td>"+al.getApellido()+"</td>");
                     out.println("<td>");
-                    out.println("<a class=\"btn btn-info\" href=\"AlumnoUpdate?id="+al.getId()+"\">Actualizar</a>");
+                    out.println(
+                            "<a class=\"btn btn-info\" href=\"AlumnoUpdate?id="
+                                    +al.getId()
+                                    +"&nombre="+al.getNombre()
+                                    +"&apellido="+al.getApellido()
+                                    +"\">Actualizar</a>");
                     out.println("<a class=\"btn btn-danger\" href=\"AlumnoDelete?id="+al.getId()+"\">Borrar</a>");
                     out.println("</td>");
                     out.println("</tr>");
                 }
+            } else {
+                va.error("Error al listar alumnos", "No ha sido posible conectar a la base de datos. Intentelo de nuevo pasados unos minutos. Si el error persiste, contacte con el servicio técnico.");                
             }
-            out.println("</table>");
+            out.println("</tbody></table>");
             
             va.pintaPie();
         }
